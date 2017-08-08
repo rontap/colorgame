@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="main.css">
+         <link rel="stylesheet" href="media.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://use.fontawesome.com/eb75e4edc0.js"></script>
+    </head>
+    <body>
+        <div class="main_header" id="main_header">Color Awesome Game</div>
+        
+    <section id="container_holder">
+        
+        
+        <container id="face" class="on">
+            <span id="points"></span>
+            <b><span id="score"></span></b>
+            <span id="level">Match the colors on the sides!<br>If you have no tokens left, the game is over</span>
+        </container>
+        
+        
+        <container id="difficulty_selector" >
+            <button onclick="setDifficulty(0)">Rare</button>
+            <button onclick="setDifficulty(1)">Medium</button>
+            <button onclick="setDifficulty(2)">Done</button>
+            <button onclick=setDifficulty(3)"">Well-Done with ketchup</button>
+        </container>
+        
+        <container id="additional_info" class="wide hide">
+            You can earn powerups every some levels, which are:<br>
+             <span>
+                 <b>Time</b> <i class="fa fa-history" aria-hidden="true"></i><br>
+                 Restart color hue if reached the end<br>
+             </span>
+             <span>
+                 <b>Shield</b> <i class="fa fa-shield" aria-hidden="true"></i><br>
+                 Saves you once from dying<br>
+            </span>
+            <span>
+                <b>Hourglass</b> <i class="fa fa-hourglass-start" aria-hidden="true"></i><br>
+                slows down the game by 30% for a limited time<br>
+            </span>
+             <hr>
+            There may be some evil things that await you, so beware after level 66
+        </container>
+        
+        <container id="floor">
+            Your highscore: <span id="topscore"></span>
+            <br>
+            version 4.0.2<br>
+            &copy; 2017<br>
+            Created By <a href="http://rontap.netne.net/" target="_blank">rontap</a> and <a href="http://ago.comeze.com/mystuff/main.html" target="_blank">csagobi</a>
+        </container>
+        
+        
+    </section>
+        
+        <footer id="container_holder_selector" onclick="changeActiveTab(event)">
+            <span class="on">How to play</span><span >Difficulty</span><span>Bonus info</span><span>About</span>
+        </footer>
+        
+        
+        <span id="game_field">
+            <div id="left"></div>
+            <div id="right"></div>
+            
+            <img src="trump.png" id="trump">
+            
+            <holder >
+                 <fab class="hidden"><i class="fa fa-history fa-2x" aria-hidden="true"></i></fab>
+                 <fab class="hidden"><i class="fa fa-shield fa-2x" aria-hidden="true"></i></fab>
+                 <fab class="hidden"><i class="fa fa-hourglass-start fa-2x" aria-hidden="true"></i></fab>
+                 <fab class="hidden"><i class="fa fa-thumbs-o-down fa-2x" aria-hidden="true"></i></fab>
+            </holder> 
+            
+            <span id="pointsStatistic"></span>
+            <button id="returnHome">Retun to homepage</button>
+            
+        </span>
+         <script src="main.js"></script>
+         <script src="gameloop.js"></script>
+         <script src="powerups.js"></script>
+    </body>
+</html>
+
+<!--
+   version history
+   1.0 BETA original release. basic hue support, score
+   1.1 BETA score and points, highscore
+   1.2 balancing game and gameover
+   2.0 powerups and organising code
+   3.0 statistics and created doom for bad things
+   3.1 difficulty 
+   3.2 updated text. Random level hardness
+   3.3 doom added for bad things
+   4.0 complete redesign
+   4.0.1 controls vary depending on devide, now you cant give up game if youre not playing, minor desing changes
+   4.0.2 header only clickable while loop running, "return home" button added to showstatistic page
+   4.1 adding powerups in background. saved to GIT.
+-->
+
+<!-- TBA
+-show how many points you earn each round
+-zen and insane mode
+-proper highscore
+-added doom-s
+-combo
+
+-->
