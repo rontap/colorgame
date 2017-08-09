@@ -97,9 +97,7 @@ function loop() { //main game loop
             showStatistic();
 
         }
-        
     }
-    
 }
 
 setInterval( () => playtime++ , 1000 ) ;

@@ -1,15 +1,28 @@
-function $(call) {  return document.querySelector(call);        }
-function $$(call) {  return document.querySelectorAll(call);    }
-function rand()  {  return Math.round(Math.random() * 255);     }
-function D(one,two) { return Math.abs( one - two ); }  //returns difference
+//-------------------------------
+//-API-ADDITIONS-----------------
+//-------------------------------
+
+$    = (call)    =>  document.querySelector(call)      
+$$   = (call)    =>  document.querySelectorAll(call)   
+rand = ()        =>  Math.round(Math.random() * 255)    
+D    = (one,two) =>  Math.abs( one - two )   //returns difference
+
 Array.prototype.sum = function() {//want 
     var c=0;
     for (x = 0; x < this.length; x++) c = c + this[x];
     return c;
 }
+//evil code FUCKING EMCASCRIPT WRITERS
+NodeList.prototype.indexOf = function(element) {
+    ArrayObj = new Array( ...this);
+    return ArrayObj.indexOf(element);
+}
 
+//-------------------------------
+//-MAIN-CONTROLS-----------------
+//-------------------------------
 
-//vars
+//-DOCUMENT-VARS-----------------
 var left, right ;           //arrays holding the original values
 var dst, altRight;          //left-right distance.  altRight is current color
 var difficulty;
@@ -29,7 +42,6 @@ lastRecord="";
 timeBetweenLevels = 500 ;   //between levels gap
 playtime = 0;               //game played for seconds 
 
-
 //game difficulty changer 0 = RARE 1 = MEDIUM 2 = DONE 3 = WELL-DONE MIT KÁTCHUP 
 loopvar = {
     score : [2500,2000,1500,1250],                 //tokens; life
@@ -40,6 +52,7 @@ loopvar = {
     doomLength : [4,5,6,7],
     slowDownChange : [1.8,1.6,1.4,1.2]
 }
+
 
 function setDifficulty(setDiff) {       //this HAS to run to init the game!  
    Object.keys(loopvar).forEach(function(key) {
@@ -58,7 +71,6 @@ function rightColor() {
     right = [rand() , rand(), rand() ]
       $("#right").style.background =  "rgb(" + right[0] + ", " + right[1] + ", " + right[2] + ")";
 }
-
 
 // returns the value if call is not set
 function isGiftActive(nth,call) {
@@ -84,8 +96,6 @@ function isDoomActive(nth,call) {
     
     if ( doomActiveList[nth]>0 )  $('body').classList.add('doom'+(nth))
     else  $('body').classList.remove('doom'+(nth))
-    
-    
     call = typeof(call) == 'undefined' ? null : call;
     if (call==null) 
         if (doomActiveList[nth]>0) return doomActiveList[nth]-- ;
@@ -94,7 +104,7 @@ function isDoomActive(nth,call) {
  
 }
 
-function run() {
+function run() {  //main process. run->loop->run
     $('body').classList.add('ingame');
     if (level > 1) leftColor();
     else changeActiveTabCall(0);
@@ -102,9 +112,11 @@ function run() {
     dst=[left[0] - right[0], left[1] - right[1], left[2] - right[2]];
     loop(); //main game loop
 }
+
 function doTheCombo() {
-    //create combo!! here ago pls
+    comboCounter++;
 }
+
 function userAction(call) {
         if (!gameStart) {
             gameStart = true;
@@ -113,11 +125,11 @@ function userAction(call) {
             additional_info.classList.add("hide");
             setDifficulty(call);
             randomisedSpeed=loopvar.mainSpeed;
+            comboCounter = 0;
             run();
             
-        } else {
-            space = true;
-        }
+        } else  space = true;
+        
 }
 
 function isMaxHue() {   // if all of the hues have reached max
@@ -129,54 +141,6 @@ function isMaxHue() {   // if all of the hues have reached max
     else return false
 }
 
-function showStatistic() {
-    $('#pointsStatistic').classList.add('on');
-    proc=100/scoreInLevels.length;
-    max=Math.max(...scoreInLevels);
-    temp="";
-    for (i=0;i<scoreInLevels.length;i++) {
-        temp+="<div style='left:"+proc*i+"%; width:"+proc+"%; height:"+Math.floor(scoreInLevels[i]/max*100)+"%;' >"+scoreInLevels[i]+"</div>";
-    }
-    pointsStatistic.innerHTML=temp;
-    
-    //adds button to return to home page
-    $("#returnHome").style.display = "block";
-    $("#returnHome").onclick = function() { window.location.reload(); }
-}
-
-
-function changeActiveTabCall(call) {
-   $$('footer span').forEach(function(elem){
-       elem.classList.remove('on');
-   });
-   $$('container').forEach(function(elem){
-       elem.classList.remove('on');
-   });
-   $$('footer span')[call].classList.add('on');
-   $$('container')[call].classList.add('on');
-}
-function changeActiveTab(event) {
-   spanOnClickVar = ($$('footer span').indexOf(event.path[0]));
-   changeActiveTabCall(spanOnClickVar);
-}
-//evil code FUCKING EMCASCRIPT WRITERS
-NodeList.prototype.indexOf = function(element) {
-    ArrayObj = new Array( ...this);
-    return ArrayObj.indexOf(element);
-}
-
-
-
-
-//window controls 
-
-
-function initGameField() {
-    left = [rand() , rand(), rand() ];
-    $("#right").style.background="rgb(" + left[0] + ", " + left[1] + ", " + left[2] + ")";
-    $("#left").style.background=$("#right").style.background;
-}
-
 function highScore() {
     if (localStorage.topscore < points || localStorage.topscore == undefined) {
         localStorage.topscore = points;
@@ -186,29 +150,6 @@ function highScore() {
 
 
 //changes the method of interaction based on device (desktop/laptop, mobile/tablet)
-function deviceWidth() {
-    if (isMobileBrowser() ) {
-        $("#score").innerHTML = "Tap the screen to begin<br>";
-        $("#left").onclick = function()  {
-            userAction(0);
-        }
-        $("#right").onclick = function()  {
-           userAction(0);
-        }
-    }
-    else  {
-        $("#score").innerHTML = "Press the spacebar to begin<br>";
-        window.onkeypress = function(event) {
-            if (event.keyCode == 32)   {
-                event.preventDefault();
-                userAction(0);
-            }
-        }
-    } 
-}
-
-
-
 function isMobileBrowser() { 
  if (
     navigator.userAgent.match(/Android/i)
@@ -251,5 +192,3 @@ insane difficuty
 zen mode
 
 */
-
-

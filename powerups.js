@@ -1,6 +1,5 @@
 //this whole thing is going to be a huge Object.
 
-
 if (localStorage.achieveList==undefined)  achieveList = "0000000000" //storing binary array in numbers because fuck JSON
 else    achieveList=localStorage.achieveList
 
@@ -9,13 +8,13 @@ selected = 0
 pwrup =  [
           {
               name:'Amplify',
-              desc: '20% bonus to buu',
+              desc: '20% more bonuses',
               require : () => level>50 ,
               runs : () => alert()
           }, 
           {
               name:'Save The Day',
-              desc:'20% less to dooom',
+              desc:'20% less dooom',
               require : () => Math.floor(level/loopvar.doomOccurrance)>10 , //!
               runs : () => alert()
           },
@@ -73,13 +72,13 @@ pwrup =  [
         ]
 
 
-function isAchievementGet(nth,setAch) {
+function isAchievementGet(nth,setAch) { //setting or getting achievement
   
     setAch = typeof(setAch) == 'undefined' ? null : setAch;
     if (setAch!=null) {
-        a = new Array (...achieveList)
+        a = new Array (...achieveList)     
         a[add]=1
-        achieveList=a.join("")
+        achieveList=a.join("")   
         localStorage.achieveList=achieveList
     }
     else {
