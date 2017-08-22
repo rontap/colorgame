@@ -8,67 +8,82 @@ selected = 0
 pwrup =  [
           {
               name:'Amplify',
+              before : 'reach Level 50',
               desc: '20% more bonuses',
               require : () => level>50 ,
-              runs : () => alert()
+              runs : () => alert(),
+              icon: "angle-double-up"
           }, 
           {
               name:'Save The Day',
               desc:'20% less dooom',
-              require : () => Math.floor(level/loopvar.doomOccurrance)>10 , //!
-              runs : () => alert()
+              require : () => Math.floor(level/loopvar.doomOccurrance)>10 ,
+              runs : () => alert(),
+              icon: "life-ring"
           },
           {
               name:'Eye for an eye',
               desc:'35% bonus to upgrades but 10% more doom',
-              require : () => (level>100)&&(difficulty>1) , //!
-              runs : () => alert()
+              before : 'reach Level 100 on medium or hard',
+              require : () => (level>100)&&(difficulty>1) , 
+              runs : () => alert(),
+              icon: "refresh"
           },
           {
               name:'Helping hand',
               desc:'5% chance of automatically continuing in a perfect match',
-             // require : () => comboList.length>10 , //!
-              runs : () => alert()
+              before : 'Have 10 continous combos',
+              require : () => comboCounter>10 , //!nem ezt csinálja baszki
+              runs : () => autoContinueChance=0.05 ,
+              icon: "handshake-o"
           },
           {
               name:'Jackpot',
+              before : 'Have 5000 points purely from combos!',
               desc:'50% more points and score from combos',
-              require : () => pointsFromCombo.sum()>1000 , //!
-              runs : () => alert()
+              require : () => pointsFromCombo>5000 , //!
+              runs : () => alert(),
+              icon: "gift"
           },
           {
               name:'Headstart I',
+              before : 'reach Level 250 on medium',
               desc:'game starts from level 50',
-              require : () => level>250 , //!
-              runs : () => level=50
+              require : () => (level>250)&&(difficulty>1) ,
+              runs : () => level=50,
+              icon: "paper-plane"
           },
           {
               name:'Headstart II',
               desc:'game starts from level 111',
-              require : () => level>666 , 
-              runs : () => level=111
+              before : 'reach Level 666 on hard',
+              require : () => (level>666)&&(difficulty>2)  , 
+              runs : () => level=111,
+              icon: "rocket"
           },
           {  
               name:'Powernap',
               desc:'more time between levels',
-              require : () => playtime>600 , //!
-              runs : () => timeBetweenLevels = 1200 
+              before : 'play for at least 10 minutes',
+              require : () => playtime>600 , 
+              runs : () => timeBetweenLevels = 1200,
+              icon: "hourglass-start"
           },
           
           {
               name:'Insane Difficulty',
-              desc:'game starts from level 111',
+              desc:'Use with caution!',
               require : () => null , //!
-              runs : () => alert()
+              runs : () => $$('#difficulty_selector button')[3].disabled=false ,
+              icon: "odnoklassniki"
           },
            {
               name:'Zen Mode',
               desc:'infinite time, infinite possibilities', //needs to be added later!!!
               require : () => null , //!
-              runs : () => alert()
+              runs : () =>  $$('#difficulty_selector button')[4].disabled=false,
+              icon: "superpowers"
           },
-          
-          
         ]
 
 
@@ -77,7 +92,7 @@ function isAchievementGet(nth,setAch) { //setting or getting achievement
     setAch = typeof(setAch) == 'undefined' ? null : setAch;
     if (setAch!=null) {
         a = new Array (...achieveList)     
-        a[add]=1
+        a[nth]=1
         achieveList=a.join("")   
         localStorage.achieveList=achieveList
     }
@@ -85,3 +100,45 @@ function isAchievementGet(nth,setAch) { //setting or getting achievement
         return Number(localStorage.achieveList[nth])
     }
 }
+
+function achievementListGenerator() {
+    temp="";
+   
+    for (i=0;i<pwrup.length;i++) {
+        if (achieveList[i]=="0") { disabledText="disabled"; reachedThis="before"}
+        else { disabledText="";  reachedThis="desc"; }
+        
+        temp+='<div class="pwr" onmouseenter="viewAchievement('+i+')" onclick="setAchievement('+i+')" '+disabledText+'> <i class="fa fa-'+ pwrup[i].icon + '" aria-hidden="true"></i> </div>';
+        if (i%5==4) { temp+="<br>" }
+    }
+   
+    $('#achievementHolder').innerHTML=temp;
+}
+function viewAchievement(call) {
+     if (achieveList[call]=="0") { disabledText="disabled"; reachedThis="before"; reachText=""}
+        else { disabledText="";  reachedThis="desc"; reachText=" <i>| Reached</i>"}
+    
+     $('#currSelAchievement').innerHTML='<b>'+pwrup[call].name+reachText+'</b><br><span>'+pwrup[call][reachedThis]+'</span>';
+} 
+function setAchievement(call) { //if user clicks on it!
+    viewAchievement(call);
+    if (isAchievementGet(call)) {
+        pwrup[call].runs();
+        $$('div.pwr').forEach(function(elem){
+        elem.classList.remove('active');
+   });
+        $$('div.pwr')[call].classList.add('active');
+    }
+}
+function loopEndAchievementCompletionCheck() { //this checks for all achievements that may have been compleated ->when the game is over
+    for (i=0;i<pwrup.length;i++) {
+        if (pwrup[i].require()) {
+            isAchievementGet(i,1)
+            console.info("[GAMEINFO]  Achievement ",i," is activated");   
+        }
+        //is reached, activate it!
+        
+    }
+}
+
+achievementListGenerator();

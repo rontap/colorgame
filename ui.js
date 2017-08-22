@@ -8,7 +8,7 @@ function showStatistic() {
     max=Math.max(...scoreInLevels);
     temp="";
     for (i=0;i<scoreInLevels.length;i++) {
-        temp+="<div style='left:"+proc*i+"%; width:"+proc+"%; height:"+Math.floor(scoreInLevels[i]/max*100)+"%;' >"+scoreInLevels[i]+"</div>";
+        temp+="<div style='left:"+proc*i+"%; width:"+proc+"%; height:"+Math.floor(scoreInLevels[i]/max*100)+"%;' data-number="+scoreInLevels[i]+"</div>";
     }
     pointsStatistic.innerHTML=temp;
     

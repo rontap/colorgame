@@ -23,6 +23,8 @@ NodeList.prototype.indexOf = function(element) {
 //-------------------------------
 
 //-DOCUMENT-VARS-----------------
+function initVars() {
+
 var left, right ;           //arrays holding the original values
 var dst, altRight;          //left-right distance.  altRight is current color
 var difficulty;
@@ -40,8 +42,10 @@ scoreInLevels = [];         //saves how many score you had
 lastRecord="";
 //powerup affected VARs
 timeBetweenLevels = 500 ;   //between levels gap
-playtime = 0;               //game played for seconds 
-
+playtime = 0;               //game played for seconds
+comboCounter = 0;           //defines combocounter
+autoContinueChance = 0;     //chance that the came will automatically continue on
+pointsFromCombo= 0 ;        //how many points ONLY from combos
 //game difficulty changer 0 = RARE 1 = MEDIUM 2 = DONE 3 = WELL-DONE MIT KÁTCHUP 
 loopvar = {
     score : [2500,2000,1500,1250],                 //tokens; life
@@ -53,6 +57,8 @@ loopvar = {
     slowDownChange : [1.8,1.6,1.4,1.2]
 }
 
+}//init vars, resets whole document. [used for powerups reset]
+initVars();
 
 function setDifficulty(setDiff) {       //this HAS to run to init the game!  
    Object.keys(loopvar).forEach(function(key) {
@@ -106,15 +112,14 @@ function isDoomActive(nth,call) {
 
 function run() {  //main process. run->loop->run
     $('body').classList.add('ingame');
-    if (level > 1) leftColor();
+    if (level > 1) {
+        leftColor();
+        $('holder').style.display="block";   
+    }
     else changeActiveTabCall(0);
     rightColor();
     dst=[left[0] - right[0], left[1] - right[1], left[2] - right[2]];
     loop(); //main game loop
-}
-
-function doTheCombo() {
-    comboCounter++;
 }
 
 function userAction(call) {
@@ -125,7 +130,6 @@ function userAction(call) {
             additional_info.classList.add("hide");
             setDifficulty(call);
             randomisedSpeed=loopvar.mainSpeed;
-            comboCounter = 0;
             run();
             
         } else  space = true;
@@ -170,7 +174,6 @@ highScore();
 deviceWidth();
 
 /* Trophies
-
 default (zero)
 
 +15% bonus time/effect lalala
@@ -190,5 +193,4 @@ more time between levels
 
 insane difficuty
 zen mode
-
 */

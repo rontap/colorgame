@@ -19,12 +19,22 @@
         </container>
         
         
-        <container id="difficulty_selector" >
-            <button onclick="setDifficulty(0)">Rare</button>
+        <container id="difficulty_selector">
+            Select difficulty<br><br>
+            <button onclick="setDifficulty(0)">Easy</button>
             <button onclick="setDifficulty(1)">Medium</button>
-            <button onclick="setDifficulty(2)">Done</button>
-            <button onclick=setDifficulty(3)"">Well-Done with ketchup</button>
+            <button onclick="setDifficulty(2)">Hard</button><wbr>
+            <button onclick=setDifficulty(3) disabled>Insane</button>
+            <button onclick=setDifficulty(4) disabled>Zen</button>
+            <br><hr><br>
+            Select powerup<br><br>
+            <div id="achievementHolder"></div><br>
+            <div id="currSelAchievement">
+              <span>You can earn achievements by completing different tasks.<br>Hover one to see the benefits! Click to equip</span>
+                
+            </div>
         </container>
+        
         
         <container id="additional_info" class="wide hide">
             You can earn powerups every some levels, which are:<br>
@@ -47,7 +57,10 @@
         <container id="floor">
             Your highscore: <span id="topscore"></span>
             <br>
-            version 4.0.2<br>
+            <button>Reset Game</button>
+            <button>Cheat Mode</button>
+            <br>
+            version 5.0 beta<br>
             &copy; 2017<br>
             Created By <a href="http://rontap.netne.net/" target="_blank">rontap</a> and <a href="http://ago.comeze.com/mystuff/main.html" target="_blank">csagobi</a>
         </container>
@@ -56,7 +69,7 @@
     </section>
         
         <footer id="container_holder_selector" onclick="changeActiveTab(event)">
-            <span class="on">How to play</span><span >Difficulty</span><span>Bonus info</span><span>About</span>
+            <span class="on">How to play</span><span>Settings</span><span>Bonus info</span><span>About</span>
         </footer>
         
         
@@ -86,23 +99,7 @@
 </html>
 
 <!--
-   version history
-   1.0 BETA original release. basic hue support, score
-   1.1 BETA score and points, highscore
-   1.2 balancing game and gameover
-   
-   2.0 powerups and organising code
-   
-   3.0 statistics and created doom for bad things
-   3.1 difficulty 
-   3.2 updated text. Random level hardness
-   3.3 doom added for bad things
-   
-   4.0 complete redesign
-   4.0.1 controls vary depending on devide, now you cant give up game if youre not playing, minor desing changes
-   4.0.2 header only clickable while loop running, "return home" button added to showstatistic page
-   4.1 adding powerups in background. saved to GIT.
--->
+  -->
 
 <!-- TBA
 -show how many points you earn each round
