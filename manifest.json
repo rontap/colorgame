@@ -1,0 +1,26 @@
+{
+  "short_name": "Color Game",
+  "name": "Cancer Game v5s",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+
+  ],
+  "start_url": "index.html?launcher=true",
+  "background_color": "#00BCD4",
+  "theme_color":"#00BCD4"
+}

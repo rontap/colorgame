@@ -2,16 +2,22 @@
 //-API-ADDITIONS-----------------
 //-------------------------------
 
-$    = (call)    =>  document.querySelector(call)      
-$$   = (call)    =>  document.querySelectorAll(call)   
-rand = ()        =>  Math.round(Math.random() * 255)    
+$    = (call)    =>  document.querySelector(call)
+$$   = (call)    =>  document.querySelectorAll(call)
+rand = ()        =>  Math.round(Math.random() * 255)
 D    = (one,two) =>  Math.abs( one - two )   //returns difference
 
-Array.prototype.sum = function() {//want 
+Array.prototype.sum = function() {//want
     var c=0;
     for (x = 0; x < this.length; x++) c = c + this[x];
     return c;
 }
+
+console.dbg = function (call) {
+    if (isDebug)
+        console.log(call);
+}
+
 //evil code FUCKING EMCASCRIPT WRITERS
 NodeList.prototype.indexOf = function(element) {
     ArrayObj = new Array( ...this);
@@ -39,6 +45,7 @@ giftActiveList=[false,false,false,false]; //do not write to this array, use isGi
 doomActiveList=[0,0];      //do not write to this array, use isDoomActive instead
 gameStart = false;
 scoreInLevels = [];         //saves how many score you had
+colorInLevels = [];         //TBATBA PLS ARON
 lastRecord="";
 //powerup affected VARs
 timeBetweenLevels = 500 ;   //between levels gap
@@ -46,25 +53,32 @@ playtime = 0;               //game played for seconds
 comboCounter = 0;           //defines combocounter
 autoContinueChance = 0;     //chance that the came will automatically continue on
 pointsFromCombo= 0 ;        //how many points ONLY from combos
-//game difficulty changer 0 = RARE 1 = MEDIUM 2 = DONE 3 = WELL-DONE MIT KÁTCHUP 
+//game difficulty changer 0 = RARE 1 = MEDIUM 2 = DONE 3 = WELL-DONE MIT KÁTCHUP
 loopvar = {
     score : [2500,2000,1500,1250],                 //tokens; life
-    mainSpeed :[150,120,100,80],                   //the game main 
+    mainSpeed :[150,120,100,80],                   //the game main
     speedGrowth :[2,1.8,1.7,1.5],
-    giftOccurrance :[7,10,13,16],
+    giftOccurrance :[7,9,13,16],
     doomOccurrance : [18,15,12,9],
     doomLength : [4,5,6,7],
     slowDownChange : [1.8,1.6,1.4,1.2]
-}
-
+};
+loopvarDelta=[1,1];
+isDebug=false; //if false, turns off console logs.
+if (localStorage.cheatMode == '1')
+  main_header.innerHTML+=" | <i>cheater</i>";
 }//init vars, resets whole document. [used for powerups reset]
-initVars();
+initVars(); //MUST RUN HERE
 
-function setDifficulty(setDiff) {       //this HAS to run to init the game!  
+function setDifficulty(setDiff) {       //this HAS to run to init the game!
    Object.keys(loopvar).forEach(function(key) {
    loopvar[key]=loopvar[key][setDiff];
    difficulty=setDiff;
   })
+
+  //6.0 changing the domms and stuff -> PWRUP
+  loopvar.giftOccurrance = Math.round(loopvar.giftOccurrance*loopvarDelta[0]);
+  loopvar.doomOccurrance = Math.round(loopvar.doomOccurrance*loopvarDelta[1]);
   setDifficulty=function(){};
 }
 
@@ -80,7 +94,7 @@ function rightColor() {
 
 // returns the value if call is not set
 function isGiftActive(nth,call) {
-    
+
     call = typeof(call) == 'undefined' ? null : call;
     if (call==null) return giftActiveList[nth];
     else {
@@ -99,22 +113,22 @@ function isGiftActive(nth,call) {
 }
 
 function isDoomActive(nth,call) {
-    
+
     if ( doomActiveList[nth]>0 )  $('body').classList.add('doom'+(nth))
     else  $('body').classList.remove('doom'+(nth))
     call = typeof(call) == 'undefined' ? null : call;
-    if (call==null) 
+    if (call==null)
         if (doomActiveList[nth]>0) return doomActiveList[nth]-- ;
         else return  doomActiveList[nth]=0 ;
     else doomActiveList[nth]=call;
- 
+
 }
 
 function run() {  //main process. run->loop->run
     $('body').classList.add('ingame');
     if (level > 1) {
         leftColor();
-        $('holder').style.display="block";   
+        $('holder').style.display="block";
     }
     else changeActiveTabCall(0);
     rightColor();
@@ -131,9 +145,9 @@ function userAction(call) {
             setDifficulty(call);
             randomisedSpeed=loopvar.mainSpeed;
             run();
-            
+
         } else  space = true;
-        
+
 }
 
 function isMaxHue() {   // if all of the hues have reached max
@@ -151,10 +165,15 @@ function highScore() {
     }
     topscore.innerHTML = localStorage.topscore;
 }
-
+function resetGame(){
+    if (confirm("Are you sure?") == true) {
+        localStorage.clear()
+        location.reload()
+    }
+}
 
 //changes the method of interaction based on device (desktop/laptop, mobile/tablet)
-function isMobileBrowser() { 
+function isMobileBrowser() {
  if (
     navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/iPhone/i)
@@ -172,25 +191,3 @@ function isMobileBrowser() {
 initGameField();
 highScore();
 deviceWidth();
-
-/* Trophies
-default (zero)
-
-+15% bonus time/effect lalala
--15% negative time/effect lalala
-Bonus to Combo-s
-starts at 50  level
-
-+25% bonus AND +10% negative
-starts with 1000 extra points
-5% chance to auto-perfect
-pause button
-
-starts at 100 level
-+10% positive AND -10% negative
-more time between levels
-
-
-insane difficuty
-zen mode
-*/

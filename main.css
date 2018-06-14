@@ -22,7 +22,7 @@ hr {
 }
 
 .header_click:hover {
-    background-color: red;
+    background-color: #9d9d9d;
     font-size: 26px;
     transition: all .5s;
 }
@@ -42,7 +42,7 @@ container {
     z-index: 9;
     position:fixed;
     left: calc( 50% - 300px );
-    bottom:-350px;
+    bottom:-400px;
     transition:.4s;
 }
 container.on {
@@ -132,6 +132,11 @@ div.pwr:nth-child(10)::after  {
     font-style: normal;
     color:#444;
 }
+#currSelAchievement b s {
+    font-style: normal;
+    text-decoration: none;
+    color:#48F;
+}
 #achievementHolder div {
     display:inline-block;
 }
@@ -197,24 +202,26 @@ footer span:last-child {
 holder {
         position: fixed;
         top: 350px;
-        left: calc(50% - 32px);  
+        left: calc(50% - 75px);  
         z-index:10;
         display:none;
 }
 fab {
         display: block;
-        border-radius: 100%;
+        border-radius: 4px;
         padding:15px;
         box-shadow: 0px 0px 4px #444;
         background:white;
         margin-top:20px;
         text-align: center;
-        width: 32px;
+        width: 120px;
         transition:all .4s;
         opacity:1;
         
 }
-
+fab i {
+    display: block !important;
+}
 fab.hidden {
      transition:all .4s;
        opacity:0;
@@ -242,6 +249,15 @@ fab.hidden {
     text-align:center;
     animation: glowYourAss .3s  alternate infinite; 
     cursor: n-resize;
+}
+#pointsStatisticValue {
+    position: fixed;
+    right: 20px;
+    top: 70px;
+    z-index: 90;
+    font-size: 18px;
+    font-weight: bold;
+    display: none;
 }
 @keyframes glowYourAss {
     0% { background:#444; }
@@ -273,10 +289,39 @@ fab.hidden {
     display: none;
 }
    
-        
+.ingame #succes_notification {
+    position:fixed;
+    bottom:110px;
+    width:100px;
+    left:calc( 50% - 65px );
+    opacity:0;
+    
+}
+#succes_notification.toast {
+    animation: toastNotification 1.7s;
+}
+#succes_notificationColor {
+   height: 20px;
+    width: 130px;
+    margin: -15px -15px 10px -15px;
+    
+}
+.succ_Good { background:#4CAF50; }
+.succ_Combo { background:#00BCD4; }
+.succ_Meh { background:#607D8B; }
+.succ_Bad { background:#FF9800; }
+.succ_Awful { background:#F44336; }
+       
+@keyframes toastNotification {
+    0% { bottom:30px; opacity:0; }
+    10% { opacity:1; }
+    30% { bottom:50px; }
+    85% { opacity:1; bottom:50px; }
+    100% { bottom:30px; opacity:0; }
+}        
 /*DOOM 1 turning*/
 .doom1 span>div#left , .doom1 span>div#right {
-    animation: rotateYourAss 2s linear;
+    animation: rotateYourAss 1.5s linear;
     animation-direction: alternate;
     animation-iteration-count: infinite;
     border:5px;

@@ -17,6 +17,11 @@
     }
 }
 
+@media (max-height: 700px) {
+    holder {
+        top:50px;
+    }
+}
 
 @media (max-width: 450px) {
     #main_header , container , #container_holder_selector ,  
@@ -31,9 +36,19 @@
          bottom:-350px;
          transition:all .6s;
      }
-     container.on {
+     #face.on {
          bottom:150px;
      }
+     container.on {
+         bottom:150px !important;
+     }
+     .ingame container {
+         bottom:-550px;
+     }
+     .ingame #face.on {
+         bottom:0 !important;
+     }
+     
      #container_holder_selector  { 
          left:0;
      }

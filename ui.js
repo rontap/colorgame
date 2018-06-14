@@ -2,16 +2,20 @@
 //-UI-ELEMENTS-------------------
 //-------------------------------
 
-function showStatistic() {
+function showStatistic(points) {
     $('#pointsStatistic').classList.add('on');
     proc=100/scoreInLevels.length;
     max=Math.max(...scoreInLevels);
     temp="";
     for (i=0;i<scoreInLevels.length;i++) {
-        temp+="<div style='left:"+proc*i+"%; width:"+proc+"%; height:"+Math.floor(scoreInLevels[i]/max*100)+"%;' data-number="+scoreInLevels[i]+"</div>";
+        temp+="<div class=succ_"+colorInLevels[i]+" style='left:"+proc*i+"%; width:"+proc+"%; height:"+Math.floor(scoreInLevels[i]/max*100)+"%;' data-number="+scoreInLevels[i]+"</div>";
     }
     pointsStatistic.innerHTML=temp;
-    
+
+    //prints value of points
+    $("#pointsStatisticValue").style.display="block";
+    $("#pointsStatisticValue").innerHTML="Points: "+points;
+
     //adds button to return to home page
     $("#returnHome").style.display = "block";
     $("#returnHome").onclick = function() { window.location.reload(); }
@@ -41,16 +45,28 @@ function initGameField() {
 function deviceWidth() {
     if (isMobileBrowser() ) {
         $("#score").innerHTML = "Tap the screen to begin<br>";
-        $("#left").onclick = () =>   userAction(0)     
-        $("#right").onclick = () =>  userAction(0)
+        $("#left").onclick = () =>   userAction(/*Difficulty*/1)
+        $("#right").onclick = () =>  userAction(/*Difficulty*/1)
     }
     else  {
         $("#score").innerHTML = "Press the spacebar to begin<br>";
         window.onkeypress = function(event) {
             if (event.keyCode == 32)   {
                 event.preventDefault();
-                userAction(0);
+                userAction(/*Difficulty*/1);
             }
         }
-    } 
+    }
+}
+
+
+///
+function confirmCheat() {
+  test = prompt("Enter Cheat Activation Code");
+  if (test == "15152") {
+        alert('Powerups Unlocked');
+        localStorage.achieveList="11111111111";
+        localStorage.cheatMode = '1';
+        location.reload()
+    }
 }

@@ -4,110 +4,141 @@
         <link rel="stylesheet" href="main.css">
          <link rel="stylesheet" href="media.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="manifest" href="manifest.json">
+          <meta name="theme-color" content="#00BCD4">
+          <link rel="icon" href="./icon.png" type="image/png">
         <script src="https://use.fontawesome.com/eb75e4edc0.js"></script>
     </head>
     <body>
-        <div class="main_header" id="main_header">Color Awesome Game</div>
-        
+        <div class="main_header" id="main_header">Colour Awesome Game</div>
+
+
+
     <section id="container_holder">
-        
-        
+
+
         <container id="face" class="on">
             <span id="points"></span>
             <b><span id="score"></span></b>
-            <span id="level">Match the colors on the sides!<br>If you have no tokens left, the game is over</span>
+            <span id="level">Match the colours on the sides!<br>If you have no tokens left, the game is over</span>
         </container>
-        
-        
+
+
         <container id="difficulty_selector">
             Select difficulty<br><br>
             <button onclick="setDifficulty(0)">Easy</button>
             <button onclick="setDifficulty(1)">Medium</button>
             <button onclick="setDifficulty(2)">Hard</button><wbr>
-            <button onclick=setDifficulty(3) disabled>Insane</button>
-            <button onclick=setDifficulty(4) disabled>Zen</button>
+            <!--button onclick=setDifficulty(3) disabled>Insane</button-->
+            <!--button onclick=setDifficulty(4) disabled>Zen</button-->
             <br><hr><br>
             Select powerup<br><br>
             <div id="achievementHolder"></div><br>
             <div id="currSelAchievement">
               <span>You can earn achievements by completing different tasks.<br>Hover one to see the benefits! Click to equip</span>
-                
+
             </div>
         </container>
-        
-        
+
+
         <container id="additional_info" class="wide hide">
-            You can earn powerups every some levels, which are:<br>
-             <span>
-                 <b>Time</b> <i class="fa fa-history" aria-hidden="true"></i><br>
-                 Restart color hue if reached the end<br>
-             </span>
-             <span>
-                 <b>Shield</b> <i class="fa fa-shield" aria-hidden="true"></i><br>
+            You can earn time-bounded powerups every some levels, which are:<br>
+
+                 <b>Time</b> <i class="fa fa-history" aria-hidden="true"></i>
+                 Restarts colour hue if reached the end<br>
+
+
+                 <b>Shield</b> <i class="fa fa-shield" aria-hidden="true"></i>
                  Saves you once from dying<br>
-            </span>
-            <span>
-                <b>Hourglass</b> <i class="fa fa-hourglass-start" aria-hidden="true"></i><br>
+
+
+                <b>Hourglass</b> <i class="fa fa-hourglass-start" aria-hidden="true"></i>
                 slows down the game by 30% for a limited time<br>
-            </span>
+           <b>These powerups activate automatically.</b>
              <hr>
-            There may be some evil things that await you, so beware after level 66
+             If you reach certain goals (e.t. level 250), you can earn permanent powerups, of which one can be activated prior to the game in settings. Unlimited use.
+             <hr>
+            There may be some evil things that await you, so beware after some levels!
         </container>
-        
+
         <container id="floor">
             Your highscore: <span id="topscore"></span>
             <br>
-            <button>Reset Game</button>
-            <button>Cheat Mode</button>
+            <button onclick=resetGame()>Reset Game</button>
+            <button onclick="confirmCheat()">Cheats</button>
+            <button onclick="location.href='../../rtsmenu.html'">More Games...</button>
             <br>
-            version 5.0 beta<br>
-            &copy; 2017<br>
-            Created By <a href="http://rontap.netne.net/" target="_blank">rontap</a> and <a href="http://ago.comeze.com/mystuff/main.html" target="_blank">csagobi</a>
+            <span id="versionHolder">Loading...</span> <br>
+            Service is <i id="extraInfo">unavabile</i>
+            &copy; 2017 & 2018<br>
+            Created By <a href="http://rontap.netne.net/" target="_blank">Aron Tatai</a> and <a href="http://ago.comeze.com/mystuff/main.html" target="_blank">Agoston Csehi</a>
         </container>
-        
-        
+
+
     </section>
-        
+
         <footer id="container_holder_selector" onclick="changeActiveTab(event)">
-            <span class="on">How to play</span><span>Settings</span><span>Bonus info</span><span>About</span>
+            <span class="on">How to play</span><span>Settings</span><span>Guide</span><span>About</span>
         </footer>
-        
-        
+
+
         <span id="game_field">
             <div id="left"></div>
             <div id="right"></div>
-            
+
             <img src="trump.png" id="trump">
-            
+
             <holder >
-                 <fab class="hidden"><i class="fa fa-history fa-2x" aria-hidden="true"></i></fab>
-                 <fab class="hidden"><i class="fa fa-shield fa-2x" aria-hidden="true"></i></fab>
-                 <fab class="hidden"><i class="fa fa-hourglass-start fa-2x" aria-hidden="true"></i></fab>
+                 <fab class="hidden"><i class="fa fa-history fa-2x" aria-hidden="true"></i> Restart Hue if missed</fab>
+                 <fab class="hidden"><i class="fa fa-shield fa-2x" aria-hidden="true"></i> Shield against Death</fab>
+                 <fab class="hidden"><i class="fa fa-hourglass-start fa-2x" aria-hidden="true"></i> Slower Color Change</fab>
                  <fab class="hidden"><i class="fa fa-thumbs-o-down fa-2x" aria-hidden="true"></i></fab>
-            </holder> 
-            
+            </holder>
+
             <span id="pointsStatistic"></span>
+            <span id="pointsStatisticValue"></span>
             <button id="returnHome">Retun to homepage</button>
-            
+
         </span>
-        
+
+
+        <container id="succes_notification">
+            <div id="succes_notificationColor"></div>
+            <div id="succes_notificationText"></div>
+        </container>
+
          <script src="ui.js"></script>
          <script src="main.js"></script>
          <script src="gameloop.js"></script>
          <script src="powerups.js"></script>
+
+         <script src="service-manager.js" type="text/javascript"></script>
     </body>
 </html>
 
 <!--
+
+VERSION HISTORY:
+
+ 1.1 BETA score and points, highscore
+ 1.2  balancing game and gameover
+ 2.0  powerups and organising code
+ ___
+ 3.0  statistics and created doom for bad things
+ 3.1  difficulty
+ 3.2  updated text. Random level hardness
+ 3.3  doom added for bad things
+ ___
+ 4.0  complete redesign
+ 4.0.1 controls vary depending on devide, now you cant give up game if youre not playing, minor desing changes
+ 4.0.2 header only clickable while loop running, "return home" button added to showstatistic page
+ 4.1  adding powerups in background. saved to GIT. added combo and moved UI to ui.js
+ ___
+ 5.0  activateable achievements between games
+
+ ___ [2018, new start]
+ 5.1  bugfixes and mobile fixes
+ 5.2  powerups rebalanced, additional modes removed; all of them work now
+ 5.3  cheat mode, reset added
+ 5.5  PWA update! App works offline now.
   -->
-
-<!-- TBA
--show how many points you earn each round
--zen and insane mode
--proper highscore
--added doom-s
--combo
-    20< színkül. -> comboFaszom++ 
-    és mindig score *(1+comboFaszom/10)
-
--->
