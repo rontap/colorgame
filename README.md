@@ -18,5 +18,10 @@
    4.1  adding powerups in background. saved to GIT. added combo and moved UI to ui.js
    ___
    5.0  activateable achievements
+   ___ [2018, new start]
+   5.1  bugfixes and mobile fixes
+   5.2  powerups rebalanced, additional modes removed; all of them work now
+   5.3  cheat mode, reset added
+   5.5  PWA update! App works offline now.
    ```
 
